@@ -5,7 +5,7 @@ import csv
 
 driver = webdriver.Chrome()
 
-page_url = 'https://steamdb.info/charts/'
+page_url = 'https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_population'
 
 #fetch the webpage
 driver.get(page_url)
@@ -20,12 +20,10 @@ page_source = driver.page_source
 soup = BeautifulSoup(page_source, 'html.parser')
 
 #Find the table element
-table = soup.find('table', class_='table-products table-hover text-left dataTable')
+table = soup.find('table', class_='wikitable sortable sticky-header sort-under mw-datatable col2left col6left jquery-tablesorter')
 
 
 if table:
-    #Extract column headers
-    headers = [th.get_text().strip() for th in table.find_all('th')]
     
     #Extract the row data
     rows = []
@@ -33,10 +31,7 @@ if table:
         row = [td.get_text().strip() for td in tr.find_all('td')]
         if row:
             rows.append(row)
-            
-    print('Column headers:')    
-    print(headers)  
-    
+        
     print('\nRow data:')
     for row in rows:
         print(row)    
